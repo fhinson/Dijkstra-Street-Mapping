@@ -11,6 +11,7 @@ public class Graph {
 	private double[] dist;
 	private int[] path;
 	private boolean[] known;
+	static Road[] tree;
 	private ArrayList<Integer> paths = new ArrayList<Integer>();
 	
 	public Graph(int intersectionCount, boolean isDirgraph){
@@ -114,26 +115,6 @@ public class Graph {
 	public void printDist(int v){
 		System.out.println("Distance from origin is " + dist[v]);
 	}
-	
-	public void mst() {
-        for (int i = 0; i < dist.length; i++) {
-                known[i] = false;
-                dist[i] = Integer.MAX_VALUE;
-                path[i] = -1;
-        }
-        int aRoad;
-        while ((aRoad = findSmallestIntersection(0)) != -1) {
-                known[aRoad]= true;
-                AdjList A = getAdjList(new Intersection(aRoad, "i0", 0, 0));
-                for (int w = A.begin(); !A.end(); w = A.next()) {
-                        if (known[w] && (dist[aRoad] + adj[aRoad][w] < dist[w])) {
-                                dist[w] = dist[aRoad] + adj[aRoad][w];
-                                path[w] = aRoad;
-                        }
-                }
-        }
-	}
-
 	
 	public void djikstra(int s){		
 		for (int i = 0; i < dist.length; i++){

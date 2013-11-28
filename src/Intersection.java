@@ -36,4 +36,12 @@ public class Intersection {
 	public Intersection getIntersection(){
 		return this;
 	}
+	
+	public boolean getKnown() {
+        return known;
+	}
+	
+	public void setKnown(boolean b) {
+	    known = b;
+	}
 }

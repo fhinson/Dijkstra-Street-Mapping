@@ -16,4 +16,13 @@ public class Road {
 		return Math.pow(Math.pow((w.xcoor-v.xcoor),2)+Math.pow((w.ycoor-v.ycoor),2),0.5);
 	}
 	
+	public void setRoadKnown() {
+		v.setKnown(true);
+		w.setKnown(true);
+	}
+	
+	public boolean getRoadKnown() {
+		return (v.getKnown() && w.getKnown());
+	}
+	
 }
