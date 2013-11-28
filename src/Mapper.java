@@ -59,8 +59,8 @@ public class Mapper extends JFrame{
 			//show(map);
 			//String start = JOptionPane.showInputDialog(null,"What point are you starting from? Enter an intersection key.");
 			//String end = JOptionPane.showInputDialog(null,"What point are you ending at? Enter an intersection key.");
-			String start = "i134122617";
-			String end = "i134122620";
+			String start = "i134122620";
+			String end = "i134122617";
 			
 			map.djikstra(intersectionMap.get(start).ID);
 			path = map.printPath(intersectionMap.get(end).ID);
@@ -72,7 +72,10 @@ public class Mapper extends JFrame{
 			}
 			System.out.println();
 			for(int i = 0; i<path.size()-1; i++){
-				System.out.print("Road " + valRoadMap.get((valIntMap.get(path.get(i)).key+"|"+valIntMap.get(path.get(i+1)).key)).key);
+				if (valRoadMap.get((valIntMap.get(path.get(i)).key+"|"+valIntMap.get(path.get(i+1)).key)) != null)
+					System.out.print("Road " + valRoadMap.get((valIntMap.get(path.get(i)).key+"|"+valIntMap.get(path.get(i+1)).key)).key);
+				else
+					System.out.print("Road " + valRoadMap.get((valIntMap.get(path.get(i+1)).key+"|"+valIntMap.get(path.get(i)).key)).key);
 				if(i != path.size()-2)
 					System.out.print(" to ");
 			}
@@ -80,7 +83,7 @@ public class Mapper extends JFrame{
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}	
 		
 		Mapper t = new Mapper();
         t.add(new JComponent() {
