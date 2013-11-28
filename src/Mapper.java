@@ -11,6 +11,7 @@ public class Mapper extends JFrame{
 	private static Map<String, Intersection> intersectionMap = new HashMap<String, Intersection>();
 	private static Map<Integer, Intersection> valIntMap = new HashMap<Integer, Intersection>();
 	private static Map<String, Road> roadMap = new HashMap<String, Road>();
+	private static Map<String, Road> valRoadMap = new HashMap<String, Road>();
 	private static ArrayList<Integer> path = new ArrayList<Integer>();
 	static Graph map = new Graph(0,false); //+1 necessary to resolve array index issue
 	
@@ -51,24 +52,30 @@ public class Mapper extends JFrame{
 					Road r = new Road(key, v1, v2);
 					map.insert(r);
 					roadMap.put(key,r);
+					valRoadMap.put((intersectionA+"|"+intersectionB), r);
 				}
 				lineCounter++;
 			}
 			//show(map);
+			//String start = JOptionPane.showInputDialog(null,"What point are you starting from? Enter an intersection key.");
+			//String end = JOptionPane.showInputDialog(null,"What point are you ending at? Enter an intersection key.");
 			String start = "i134122617";
 			String end = "i134122620";
-			
-			
 			
 			map.djikstra(intersectionMap.get(start).ID);
 			path = map.printPath(intersectionMap.get(end).ID);
 			
 			for(int i = 0; i<path.size(); i++){
-				System.out.print(valIntMap.get(path.get(i)).key);
+				System.out.print("Intersection " + valIntMap.get(path.get(i)).key);
 				if(i != path.size()-1)
 					System.out.print(" to ");
 			}
 			System.out.println();
+			for(int i = 0; i<path.size()-1; i++){
+				System.out.print("Road " + valRoadMap.get((valIntMap.get(path.get(i)).key+"|"+valIntMap.get(path.get(i+1)).key)).key);
+				if(i != path.size()-2)
+					System.out.print(" to ");
+			}
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -90,6 +97,7 @@ public class Mapper extends JFrame{
                     g2.draw(l);
                     it.remove(); // avoids a ConcurrentModificationException
                 }
+                //now draw shortest path
                 g2.setColor(Color.orange);
                 if(path.size() > 1){
                 	for(int i = 0; i<path.size()-1; i++){
@@ -103,15 +111,5 @@ public class Mapper extends JFrame{
         t.setDefaultCloseOperation(EXIT_ON_CLOSE);
         t.setSize(800, 800);
         t.setVisible(true);
-	}
-	
-	
-	static void show(Graph G){
-		for(int s=0; s<G.V(); s++){
-			AdjList A = G.getAdjList(new Intersection(s,"i0",0,0));
-			for (int t = A.begin(); !A.end(); t=A.next()){
-				System.out.println("For intersection/vertex " + (s) + " there is adjacent intersection " + (t) + " ");
-			}
-		}
 	}
 }
