@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JPanel;
 	
@@ -10,6 +11,7 @@ public class Graph {
 	private double[] dist;
 	private int[] path;
 	private boolean[] known;
+	private ArrayList<Integer> paths = new ArrayList<Integer>();
 	
 	public Graph(int intersectionCount, boolean isDirgraph){
 		this.intersectionCount = intersectionCount;
@@ -101,12 +103,12 @@ public class Graph {
 		}
 	}
 	
-	public void printPath(int v){
+	public ArrayList<Integer> printPath(int v){
 		if(path[v] != -1){
 			printPath(path[v]);
-			System.out.print(" to ");
 		}
-		System.out.print(v);
+		paths.add(v);
+		return paths;
 	}
 	
 	public void printDist(int v){

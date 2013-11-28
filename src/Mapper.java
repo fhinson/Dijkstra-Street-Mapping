@@ -9,7 +9,9 @@ public class Mapper extends JFrame{
 	
 	private static int intersectionCount, intersectionID = 1;
 	private static Map<String, Intersection> intersectionMap = new HashMap<String, Intersection>();
+	private static Map<Integer, Intersection> valIntMap = new HashMap<Integer, Intersection>();
 	private static Map<String, Road> roadMap = new HashMap<String, Road>();
+	private static ArrayList<Integer> path = new ArrayList<Integer>();
 	static Graph map = new Graph(0,false); //+1 necessary to resolve array index issue
 	
 	public static void main (String[] args) throws IOException {
@@ -30,6 +32,7 @@ public class Mapper extends JFrame{
 					if (intersectionMap.get(key) == null) {
 						Intersection v = new Intersection(intersectionID, key, x, y);
 						intersectionMap.put(key, v);
+						valIntMap.put(intersectionID, v);
 						intersectionCount = intersectionID++;
 					}
 					
@@ -53,7 +56,14 @@ public class Mapper extends JFrame{
 			}
 			//show(map);
 			map.djikstra(1);
-			map.printPath(7);
+			path = map.printPath(3);
+			
+			for(int i = 0; i<path.size(); i++){
+				System.out.print(valIntMap.get(path.get(i)).key);
+				if(i != path.size()-1)
+					System.out.print(" to ");
+			}
+			System.out.println();
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -73,9 +83,15 @@ public class Mapper extends JFrame{
                     Road r = (Road)pairs.getValue();
                     Shape l = new Line2D.Double(r.v.xcoor, r.v.ycoor, r.w.xcoor, r.w.ycoor);
                     g2.draw(l);
-                    System.out.println("Drawing " + r.key);
                     it.remove(); // avoids a ConcurrentModificationException
                 }
+                g2.setColor(Color.orange);
+                if(path.size() > 1){
+                	for(int i = 0; i<path.size()-1; i++){
+	    				Shape l = new Line2D.Double(valIntMap.get(path.get(i)).xcoor,valIntMap.get(path.get(i)).ycoor,valIntMap.get(path.get(i+1)).xcoor,valIntMap.get(path.get(i+1)).ycoor);
+	    				g2.draw(l);	
+    				}
+    			}	
             }
         });
 
