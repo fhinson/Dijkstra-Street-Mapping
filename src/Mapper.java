@@ -55,8 +55,13 @@ public class Mapper extends JFrame{
 				lineCounter++;
 			}
 			//show(map);
-			map.djikstra(1);
-			path = map.printPath(3);
+			String start = "i134122617";
+			String end = "i134122620";
+			
+			
+			
+			map.djikstra(intersectionMap.get(start).ID);
+			path = map.printPath(intersectionMap.get(end).ID);
 			
 			for(int i = 0; i<path.size(); i++){
 				System.out.print(valIntMap.get(path.get(i)).key);
